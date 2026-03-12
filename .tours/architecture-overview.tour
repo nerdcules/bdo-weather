@@ -1,0 +1,21 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Architecture Overview",
+  "steps": [
+    {
+      "file": "copilot-instructions.md",
+      "line": 1,
+      "description": "Start here. This file defines the coding standards and Copilot behavior for the repository."
+    },
+    {
+      "file": "copilot-instructions.md",
+      "line": 80,
+      "description": "Review backend and frontend implementation rules to keep feature work consistent across .NET and React."
+    },
+    {
+      "file": "copilot-instructions.md",
+      "line": 120,
+      "description": "Check walkthrough and logging rules. Keep tours and prompt/response logs updated when implementation changes."
+    }
+  ]
+}
