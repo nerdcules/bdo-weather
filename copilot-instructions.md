@@ -114,6 +114,7 @@ src/
 ## Automatic Prompt/Response Logging (Required)
 - Log every user prompt and every Copilot response by default, without requiring an explicit request.
 - Store logs only in .copilot-logs/.
+- Use scripts/append-copilot-log.sh for all log appends.
 - Use one markdown file per day: .copilot-logs/YYYY-MM-DD.md.
 - Append entries in chronological order using local timestamps in this format:
   YYYY-MM-DD HH:mm:ss
