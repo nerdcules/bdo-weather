@@ -21,6 +21,18 @@ Copilot should prioritize clarity, maintainability, and production-ready pattern
 - Follow SOLID, CQRS, and Clean Architecture principles where appropriate.
 - Use async/await everywhere IO is involved.
 
+## Functional and Immutable-First Programming
+- Prefer immutability by default. Treat data as read-only unless mutation is explicitly required.
+- Favour pure functions: same input always yields same output, no hidden side effects.
+- Isolate side effects (I/O, state changes, external calls) at the edges of the system; keep domain logic pure.
+- Prefer data transformation pipelines (map, filter, reduce, LINQ) over imperative loops with accumulator state.
+- Avoid shared mutable state; pass data explicitly rather than relying on object properties being changed in place.
+- Use records and init-only properties in C# for immutable domain models and DTOs.
+- Use `readonly` fields and `IReadOnlyCollection<T>` / `IReadOnlyDictionary<K,V>` instead of mutable collections where possible.
+- In JavaScript, prefer `const` over `let`; never use `var`. Use spread (`...`) and `Object.freeze()` for immutable object patterns.
+- Compose behaviour through function composition and small, focused transformations rather than inheritance hierarchies.
+- Represent results as discriminated unions / Result types (e.g. `Result<T, TError>`) rather than throwing exceptions for expected failure cases.
+
 ## Backend (C# 14 / .NET 10) Guidelines
 
 ### Minimal APIs
@@ -199,6 +211,18 @@ src/features/todos/components/TodoList.jsx
 - Use XML comments for public API surface.
 - Use JSDoc for JavaScript functions.
 - Keep comments short and purposeful.
+
+## Scalability
+- Design features to be stateless by default; externalise state to a database, cache, or distributed store.
+- Avoid in-memory singleton caches that cannot survive horizontal scaling.
+- Use async, non-blocking I/O throughout — never block threads with `.Result` or `.Wait()`.
+- Apply Polly resilience policies (retry with exponential back-off, circuit breaker, timeout) on all outbound HTTP calls.
+- Keep individual handlers, services, and components small enough to be deployed or scaled independently.
+- Avoid N+1 query patterns; batch or project database queries at the feature boundary.
+- Design API endpoints to be idempotent where practical (safe to retry).
+- Use pagination or cursor-based access for any list endpoint that returns unbounded data.
+- Prefer event-driven or message-based integration between bounded contexts over direct synchronous coupling.
+- Profile before optimising; document the measured bottleneck that motivated any performance-focused change.
 
 ## Non-Goals
 - Large refactors without explicit request.
