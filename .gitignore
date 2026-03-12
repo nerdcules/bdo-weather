@@ -1,0 +1,21 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+bdo-weather.db
+bdo-weather.db-shm
+bdo-weather.db-wal
+
+# Node / Vite
+src/bdo-weather-ui/node_modules/
+src/bdo-weather-ui/dist/
+
+# Environment
+*.env.local
+.env
+
+# OS
+.DS_Store
+Thumbs.db
