@@ -5,17 +5,20 @@
     {
       "file": "copilot-instructions.md",
       "line": 1,
-      "description": "### Coding standards\nAll Copilot behaviour, naming, testing, and tooling rules are defined here. Read this first before contributing."
+      "description": "### Coding standards\nAll Copilot behaviour, naming, testing, and tooling rules are defined here. Read this first before contributing.",
+      "command": "markdown.showPreview"
     },
     {
       "file": "requirements/BE/requirements.md",
       "line": 1,
-      "description": "### Backend requirements\nFull spec for the .NET 10 API: architecture decisions, endpoint contracts, resilience strategy, and persistence design."
+      "description": "### Backend requirements\nFull spec for the .NET 10 API: architecture decisions, endpoint contracts, resilience strategy, and persistence design.",
+      "command": "markdown.showPreview"
     },
     {
       "file": "requirements/FE/requirements.md",
       "line": 1,
-      "description": "### Frontend requirements\nFull spec for the React SPA: component tree, state management, API integration patterns, and accessibility rules."
+      "description": "### Frontend requirements\nFull spec for the React SPA: component tree, state management, API integration patterns, and accessibility rules.",
+      "command": "markdown.showPreview"
     },
     {
       "file": "src/BdoWeather.Api/Program.cs",
