@@ -131,6 +131,14 @@ src/
 - Never include secrets, tokens, passwords, or private keys in logs.
 - If a prompt contains sensitive values, redact them before writing to disk.
 
+## Log Maintenance Policy
+- Retention: keep daily logs for 90 days by default, then archive or delete older files.
+- Rotation: keep one file per date only; do not create multiple files for the same day.
+- Redaction: mask secrets with [REDACTED] before writing entries.
+- Integrity: append-only updates; do not rewrite historical entries except to redact sensitive data.
+- Size control: when a daily file exceeds 1 MB, continue in .copilot-logs/YYYY-MM-DD-part2.md.
+- Commit hygiene: include log updates in the same commit as related instruction or code changes.
+
 ## How Copilot Should Behave
 - Generate code that fits the patterns above.
 - When multiple approaches exist, choose the one that:
