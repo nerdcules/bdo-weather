@@ -28,8 +28,14 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration Release
 
-      - name: Test
-        run: dotnet run --no-build --configuration Release
+      - name: Test with coverage
+        run: dotnet run --no-build --configuration Release -- --coverage --coverage-output-format cobertura
+
+      - name: Upload BE coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: be-coverage
+          path: src/BdoWeather.Tests/bin/Release/net10.0/TestResults/*.cobertura.xml
 
   frontend:
     name: Frontend — vitest
@@ -51,5 +57,11 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Test
-        run: npm test
+      - name: Test with coverage
+        run: npm run test:coverage
+
+      - name: Upload FE coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: fe-coverage
+          path: src/bdo-weather-ui/coverage/

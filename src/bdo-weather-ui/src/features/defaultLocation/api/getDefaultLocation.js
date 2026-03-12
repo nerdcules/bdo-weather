@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { apiClient } from '../../../shared/api/apiClient'
+import apiClient from '../../../shared/api/apiClient'
 
 export const DefaultLocationSchema = z.object({
   city: z.string(),
