@@ -1,0 +1,66 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "2 — Backend Walkthrough",
+  "steps": [
+    {
+      "file": "src/BdoWeather.Api/Program.cs",
+      "line": 17,
+      "description": "### Config binding\n`WeatherApiOptions` is bound from `appsettings.json`. In Development, `appsettings.Development.json` overrides `UseMock: true` so OWM is never called without a real API key."
+    },
+    {
+      "file": "src/BdoWeather.Api/Infrastructure/WeatherApiOptions.cs",
+      "line": 1,
+      "description": "### Options record\nImmutable config record. `UseMock` lets the entire OWM integration be bypassed without any code change — just flip the flag in config."
+    },
+    {
+      "file": "src/BdoWeather.Api/Infrastructure/IWeatherApiClient.cs",
+      "line": 1,
+      "description": "### Testability boundary\nFeature handlers only depend on `IWeatherApiClient`, never on `WeatherApiClient` directly. This means NSubstitute can substitute the interface in tests without touching the network."
+    },
+    {
+      "file": "src/BdoWeather.Api/Infrastructure/WeatherApiClient.cs",
+      "line": 1,
+      "description": "### OWM adapter\nMaps the raw OpenWeatherMap JSON response into a domain `WeatherResponse`. All HTTP status code handling (404 → city not found, 429 → rate limited) happens here, keeping feature handlers clean."
+    },
+    {
+      "file": "src/BdoWeather.Api/Common/ResultTypes.cs",
+      "line": 1,
+      "description": "### Result<T>\nFeature handlers return `Result<T>` instead of throwing. `IsSuccess`, `IsFailure`, `Value`, and `Match<>` provide exhaustive handling. Exceptions are reserved for truly unrecoverable conditions."
+    },
+    {
+      "file": "src/BdoWeather.Api/Common/ResultExtensions.cs",
+      "line": 1,
+      "description": "### HTTP mapping\n`ToHttpResult<T>` converts a `Result<T>` to the correct `IResult` — 200, 404, 429, or 500. The `ApiEnvelope` wrapper ensures all responses have a consistent `{ data, errors }` shape."
+    },
+    {
+      "file": "src/BdoWeather.Api/Features/Weather/GetWeatherByCity.cs",
+      "line": 1,
+      "description": "### Weather feature handler\nCache-first: checks `IMemoryCache` before calling OWM. Only successful responses are cached (failures are not stored). TTL comes from `WeatherApiOptions.CacheTtlMinutes`."
+    },
+    {
+      "file": "src/BdoWeather.Api/Features/DefaultLocation/SetDefaultLocation.cs",
+      "line": 1,
+      "description": "### Set default location\nValidates input with FluentValidation → verifies the city exists via OWM → removes any existing default → saves new one. Always one row in the table. Cache is invalidated on success."
+    },
+    {
+      "file": "src/BdoWeather.Api/Persistence/AppDbContext.cs",
+      "line": 1,
+      "description": "### EF Core context\n`ApplyConfigurationsFromAssembly` auto-discovers all `IEntityTypeConfiguration<T>` implementations. SQLite in development; the connection string is overridable via `ConnectionStrings:Default` in config."
+    },
+    {
+      "file": "src/BdoWeather.Api/Common/GlobalExceptionHandler.cs",
+      "line": 1,
+      "description": "### Exception handler\nCatches anything that escapes feature handlers (should be rare). Logs the full exception, returns a 500 envelope — never exposes stack traces to the client."
+    },
+    {
+      "file": "src/BdoWeather.Tests/Features/Weather/GetWeatherByCityTests.cs",
+      "line": 1,
+      "description": "### Weather tests (TUnit)\nFour tests: happy path, city not found, cache hit on second call, upstream error not cached. Uses NSubstitute for `IWeatherApiClient` and EF InMemory for the DB."
+    },
+    {
+      "file": "src/BdoWeather.Tests/Features/DefaultLocation/SetDefaultLocationTests.cs",
+      "line": 1,
+      "description": "### Default location tests\nFour tests: valid set, empty city validation, city not found by OWM, second set replaces first (upsert semantics). TUnit + Shouldly + NSubstitute."
+    }
+  ]
+}

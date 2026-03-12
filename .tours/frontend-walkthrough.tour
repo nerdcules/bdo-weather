@@ -1,0 +1,81 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "3 — Frontend Walkthrough",
+  "steps": [
+    {
+      "file": "src/bdo-weather-ui/src/main.jsx",
+      "line": 1,
+      "description": "### Entry point\nStandard Vite/React entry. `StrictMode` enables double-invoke checks in development to catch side-effect bugs early."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/App.jsx",
+      "line": 1,
+      "description": "### Root layout\n`QueryClientProvider` wraps everything so React Query works throughout the tree. `ErrorBoundary` catches render crashes. `Toast` is placed here so it's always rendered regardless of which feature is active."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/shared/api/apiClient.js",
+      "line": 1,
+      "description": "### Axios instance\nSingle shared Axios instance. The response interceptor unwraps the `{ data, errors }` envelope — feature code never sees the envelope, only the inner payload. Typed errors (`CityNotFoundError`, `NetworkError`) are thrown here so React Query can differentiate them."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/stores/index.js",
+      "line": 1,
+      "description": "### Zustand stores\nThree stores: `useWeatherStore` (active city string), `useSettingsStore` (°C/°F unit toggle), `useToastStore` (notification queue). Zustand is used for synchronous client state; server state lives in React Query."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/shared/utils/format.js",
+      "line": 1,
+      "description": "### Format utilities\nPure functions — no side effects, no imports, easy to unit test. `formatTemperature` converts Celsius to Fahrenheit when `unit === 'F'`. `formatWindDirection` maps degrees to an 8-point compass rose."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/api/getWeatherByCity.js",
+      "line": 1,
+      "description": "### Weather API call\nZod schema validates the response shape at the API boundary. If the response doesn't match, parsing throws before bad data reaches the UI."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/hooks/useWeatherByCity.js",
+      "line": 1,
+      "description": "### React Query hook\n`staleTime: 5min` means the same city won't re-fetch within 5 minutes of a successful load. `retry: false` ensures `CityNotFoundError` surfaces immediately rather than retrying 3 times."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/components/WeatherSearch.jsx",
+      "line": 1,
+      "description": "### Search input\nValidation runs on submit (not on every keystroke). The `useDebounce` hook is wired to `value` for future auto-search capability. Accessibility: `role='search'`, `aria-invalid`, `aria-describedby` on the error paragraph."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/components/WeatherDisplay.jsx",
+      "line": 1,
+      "description": "### Weather card\nReads `activeCity` from Zustand, drives the React Query fetch. Renders `WeatherSkeleton` while loading, `WeatherError` on failure, and the full card on success. The unit toggle button reads and writes `useSettingsStore`."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/components/WeatherIcon.jsx",
+      "line": 1,
+      "description": "### Weather icon\nLoads the OWM icon PNG. Falls back to a 🌡️ emoji span if the image fails to load (`onError`), so the UI never shows a broken image."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/defaultLocation/hooks/useSetDefaultLocation.js",
+      "line": 1,
+      "description": "### Set default location mutation\nOn success: invalidates the `['defaultLocation']` React Query cache so `DefaultLocationBadge` re-fetches automatically, then shows a success toast. On error: shows an error toast."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/shared/components/ErrorBoundary.jsx",
+      "line": 1,
+      "description": "### Error boundary\nClass component — required by the React error boundary API. `getDerivedStateFromError` sets state so the fallback renders. `handleReset` clears the error state so the user can try again without a full page reload."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/shared/components/Toast.jsx",
+      "line": 1,
+      "description": "### Toast notifications\nAuto-dismiss after 4 seconds via `useEffect` + `setTimeout`. `aria-live='polite'` announces new toasts to screen readers without interrupting the user."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/shared/utils/format.test.js",
+      "line": 1,
+      "description": "### Format utils tests\n11 tests covering °C → °F conversion, negative temperatures, and 8-point compass directions. Pure function tests — no mocking needed."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/components/WeatherSearch.test.jsx",
+      "line": 1,
+      "description": "### WeatherSearch tests\nZustand stores are mocked at the module level with `vi.mock`. Tests cover render, empty submit validation, invalid-character validation, and valid city submit."
+    }
+  ]
+}

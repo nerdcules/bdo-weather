@@ -1,21 +1,36 @@
 {
   "$schema": "https://aka.ms/codetour-schema",
-  "title": "Architecture Overview",
+  "title": "1 — Architecture Overview",
   "steps": [
     {
       "file": "copilot-instructions.md",
       "line": 1,
-      "description": "Start here. This file defines the coding standards and Copilot behavior for the repository."
+      "description": "### Coding standards\nAll Copilot behaviour, naming, testing, and tooling rules are defined here. Read this first before contributing."
     },
     {
-      "file": "copilot-instructions.md",
-      "line": 80,
-      "description": "Review backend and frontend implementation rules to keep feature work consistent across .NET and React."
+      "file": "requirements/BE/requirements.md",
+      "line": 1,
+      "description": "### Backend requirements\nFull spec for the .NET 10 API: architecture decisions, endpoint contracts, resilience strategy, and persistence design."
     },
     {
-      "file": "copilot-instructions.md",
-      "line": 120,
-      "description": "Check walkthrough and logging rules. Keep tours and prompt/response logs updated when implementation changes."
+      "file": "requirements/FE/requirements.md",
+      "line": 1,
+      "description": "### Frontend requirements\nFull spec for the React SPA: component tree, state management, API integration patterns, and accessibility rules."
+    },
+    {
+      "file": "src/BdoWeather.Api/Program.cs",
+      "line": 1,
+      "description": "### API entry point\nAll DI registrations, middleware, and route definitions live here. Vertical-slice features are registered individually — no magic scanning."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/App.jsx",
+      "line": 1,
+      "description": "### React root\n`QueryClientProvider` wraps the whole tree so React Query is available everywhere. `ErrorBoundary` catches render errors. Features are composed at the top level — no routing needed for this single-page app."
+    },
+    {
+      "file": "src/bdo-weather-ui/vite.config.js",
+      "line": 1,
+      "description": "### Vite config\nThe `/api` proxy forwards all API calls to `http://localhost:5000` during development so CORS is never an issue locally. Vitest is configured here too — same config file, no separate jest.config."
     }
   ]
 }
