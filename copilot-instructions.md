@@ -3,11 +3,14 @@
 ## Purpose
 These instructions guide GitHub Copilot to generate code and suggestions aligned with this project's conventions.
 
+## AI Model
+- Use Claude Sonnet 4.6 for all Copilot interactions in this repository.
+
 ## Stack
 - Backend: C# 14, .NET 10, ASP.NET Core Minimal APIs, EF Core
 - Frontend: React (JavaScript), Vite, React Query, Tailwind CSS
 - Architecture: Clean Architecture + vertical slice features
-- Testing: xUnit, FluentAssertions, Playwright (UI), Vitest (frontend unit tests)
+- Testing: TUnit, Shouldly, Playwright (UI), Vitest (frontend unit tests)
 
 Copilot should prioritize clarity, maintainability, and production-ready patterns.
 
@@ -46,7 +49,8 @@ Copilot should prioritize clarity, maintainability, and production-ready pattern
 - Never swallow exceptions.
 
 ### Testing
-- Use xUnit + FluentAssertions.
+- Use TUnit as the test framework.
+- Use Shouldly for assertions (prefer .ShouldBe(), .ShouldNotBeNull(), .ShouldThrow() etc.).
 - Mock external dependencies with NSubstitute.
 - Prefer integration tests for API endpoints.
 
@@ -80,6 +84,14 @@ src/
 ### Styling
 - Use Tailwind CSS utility classes.
 - Extract repeated patterns into reusable components.
+- All UI must be fully responsive across mobile, tablet, and desktop breakpoints.
+- All UI must meet WCAG 2.1 AA compliance:
+  - Semantic HTML elements (button, nav, main, section, etc.).
+  - Sufficient colour contrast ratios (4.5:1 for text, 3:1 for UI components).
+  - All interactive elements must be keyboard-navigable and focusable.
+  - Use aria-label, aria-describedby, and role attributes wherever native semantics are insufficient.
+  - Images must have descriptive alt text; decorative images use alt="".
+  - Forms must have associated labels for every input.
 
 ### API Calls
 - Use a typed-by-validation API client per feature:
@@ -174,7 +186,7 @@ src/features/todos/components/TodoList.jsx
 - EF Core
 - MediatR (optional)
 - FluentValidation
-- Polly
+- Polly (required — use for all HTTP client retry, circuit-breaker, and timeout policies)
 
 ### Frontend
 - React Query
