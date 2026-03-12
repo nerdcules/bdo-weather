@@ -29,7 +29,7 @@ export const WeatherSearch = () => {
   }
 
   const submit = () => {
-    const trimmed = debouncedValue.trim()
+    const trimmed = value.trim()
     const err = validate(trimmed)
     if (err) {
       setValidationError(err)

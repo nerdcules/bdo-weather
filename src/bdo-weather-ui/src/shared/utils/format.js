@@ -1,10 +1,10 @@
 /**
  * @param {number} value - temperature in celsius
- * @param {'celsius'|'fahrenheit'} unit
+ * @param {'C'|'F'} unit
  * @returns {string}
  */
-export const formatTemperature = (value, unit = 'celsius') => {
-  if (unit === 'fahrenheit') {
+export const formatTemperature = (value, unit = 'C') => {
+  if (unit === 'F') {
     const f = (value * 9) / 5 + 32
     return `${Math.round(f)} °F`
   }
