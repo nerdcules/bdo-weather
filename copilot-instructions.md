@@ -207,6 +207,21 @@ src/features/todos/components/TodoList.jsx
 - Tailwind CSS
 - Zod (runtime validation)
 
+## Mermaid Diagrams (Required)
+- All architecture, data flow, sequence, and component relationship documentation must include Mermaid diagrams.
+- This is a non-negotiable Copilot requirement — always generate and maintain Mermaid diagrams alongside any architectural or feature documentation.
+- Diagram types to use by context:
+  - `graph TD` / `graph LR` — system architecture, component relationships, folder structure overviews.
+  - `sequenceDiagram` — API request/response flows, inter-service communication.
+  - `flowchart` — business logic flows, conditional processing, error handling paths.
+  - `erDiagram` — database entity relationships.
+  - `stateDiagram-v2` — UI component states (idle, loading, success, error).
+  - `classDiagram` — domain model structure, feature handler hierarchies.
+- When adding or updating a feature, include or update the relevant Mermaid diagram in the same change.
+- Keep diagrams simple and focused — one diagram per concern, not one mega-diagram.
+- Diagrams live in the relevant requirements or documentation file alongside the written spec.
+- Diagrams must be updated when architecture changes; stale diagrams are treated as bugs.
+
 ## Documentation Style
 - Use XML comments for public API surface.
 - Use JSDoc for JavaScript functions.
