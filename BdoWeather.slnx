@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BdoWeather.Api/BdoWeather.Api.csproj" />
+    <Project Path="src/BdoWeather.Tests/BdoWeather.Tests.csproj" />
+  </Folder>
+</Solution>
