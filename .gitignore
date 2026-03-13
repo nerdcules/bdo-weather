@@ -19,3 +19,8 @@ src/bdo-weather-ui/dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# Test & coverage artifacts
+TestResults/
+coverage/
+*.slnx
