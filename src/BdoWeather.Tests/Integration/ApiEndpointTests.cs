@@ -41,6 +41,8 @@ public sealed class ApiEndpointTests
     {
         return new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
         {
+            // Provide a dummy API key so ValidateOnStart() passes in CI (no user secrets)
+            builder.UseSetting("WeatherApi:ApiKey", "ci-test-dummy-key");
             builder.ConfigureTestServices(services =>
             {
                 ReplaceWithInMemoryDb(services);
