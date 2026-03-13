@@ -34,42 +34,45 @@ export const DefaultLocationForm = () => {
   }
 
   if (isLoading) {
-    return <div className="h-10 w-48 animate-pulse rounded-xl bg-gray-200" aria-busy="true" aria-label="Loading default location" />
+    return <div className="h-[120px] w-full animate-pulse rounded-3xl bg-white/10" aria-busy="true" aria-label="Loading default location" />
   }
 
   return (
     <form onSubmit={handleSubmit} noValidate aria-label="Set default city">
-      <div className="flex flex-wrap items-start gap-2">
-        <div className="flex flex-col gap-1">
-          <label htmlFor="default-city" className="text-xs font-medium text-gray-500">
-            Default city
-          </label>
-          <input
-            id="default-city"
-            type="text"
-            value={city}
-            onChange={(e) => { setCity(e.target.value); if (error) setError('') }}
-            placeholder="e.g. London"
-            aria-describedby={error ? 'default-city-error' : undefined}
-            aria-invalid={!!error}
-            className={`rounded-lg border px-3 py-1.5 text-sm outline-none transition focus:ring-2 ${
-              error ? 'border-red-400 focus:ring-red-300' : 'border-gray-300 focus:ring-blue-300'
-            }`}
-          />
-          {error && (
-            <p id="default-city-error" role="alert" className="text-xs text-red-600">
-              {error}
-            </p>
-          )}
+      <div className="glass-card rounded-3xl p-5">
+        <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-white/40">Default Location</p>
+        <div className="flex flex-wrap items-start gap-3">
+          <div className="flex min-w-[160px] flex-1 flex-col gap-1.5">
+            <label htmlFor="default-city" className="text-xs font-medium text-white/50">
+              City name
+            </label>
+            <input
+              id="default-city"
+              type="text"
+              value={city}
+              onChange={(e) => { setCity(e.target.value); if (error) setError('') }}
+              placeholder="e.g. London"
+              aria-describedby={error ? 'default-city-error' : undefined}
+              aria-invalid={!!error}
+              className={`glass rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/25 outline-none transition focus:ring-2 ${
+                error ? 'border-rose-500/50 focus:ring-rose-400' : 'focus:ring-sky-400'
+              }`}
+            />
+            {error && (
+              <p id="default-city-error" role="alert" className="text-xs text-rose-400">
+                {error}
+              </p>
+            )}
+          </div>
+          <button
+            type="submit"
+            disabled={isPending}
+            className="mt-6 rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/25 transition hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400 disabled:opacity-50 active:scale-95"
+            aria-busy={isPending}
+          >
+            {isPending ? 'Saving…' : 'Save'}
+          </button>
         </div>
-        <button
-          type="submit"
-          disabled={isPending}
-          className="mt-5 rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-60"
-          aria-busy={isPending}
-        >
-          {isPending ? 'Saving…' : 'Save'}
-        </button>
       </div>
     </form>
   )

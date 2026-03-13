@@ -9,7 +9,7 @@ export const DefaultLocationBadge = () => {
   const { data, isLoading } = useDefaultLocation()
   const setActiveCity = useWeatherStore((s) => s.setActiveCity)
 
-  if (isLoading) return <div className="h-6 w-24 animate-pulse rounded-full bg-gray-200" aria-hidden="true" />
+  if (isLoading) return <div className="h-7 w-24 animate-pulse rounded-full bg-white/10" aria-hidden="true" />
   if (!data) return null
 
   const handleClick = () => setActiveCity(data.city)
@@ -18,7 +18,7 @@ export const DefaultLocationBadge = () => {
     <button
       type="button"
       onClick={handleClick}
-      className="flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      className="glass flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-sky-300 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-sky-400"
       title={`Load default: ${data.city}, ${data.country}`}
       aria-label={`Load default location: ${data.city}, ${data.country}`}
     >

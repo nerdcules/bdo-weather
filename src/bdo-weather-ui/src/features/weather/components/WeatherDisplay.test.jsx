@@ -31,7 +31,7 @@ vi.mock('../hooks/useWeatherByCity', () => ({
 describe('WeatherDisplay', () => {
   it('displays the city name', () => {
     render(<WeatherDisplay />)
-    expect(screen.getByText('London,')).toBeDefined()
+    expect(screen.getByText('London')).toBeDefined()
   })
 
   it('displays the country', () => {

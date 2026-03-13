@@ -32,9 +32,9 @@ const ToastItem = ({ toast, onDismiss }) => {
   }, [toast.id, onDismiss])
 
   const colours = {
-    success: 'bg-green-600',
-    error: 'bg-red-600',
-    info: 'bg-blue-600',
+    success: 'bg-emerald-500/90 backdrop-blur-md',
+    error: 'bg-rose-500/90 backdrop-blur-md',
+    info: 'bg-sky-500/90 backdrop-blur-md',
   }
 
   return (

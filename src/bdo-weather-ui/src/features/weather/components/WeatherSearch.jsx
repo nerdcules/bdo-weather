@@ -50,7 +50,7 @@ export const WeatherSearch = () => {
 
   return (
     <div className="w-full" role="search">
-      <div className="flex gap-2">
+      <div className="glass flex overflow-hidden rounded-2xl p-1 shadow-xl">
         <label htmlFor="city-search" className="sr-only">
           Search city
         </label>
@@ -60,27 +60,26 @@ export const WeatherSearch = () => {
           value={value}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          placeholder="Enter city name…"
+          placeholder="Search for a city…"
           aria-label="City name"
           aria-describedby={validationError ? 'city-search-error' : undefined}
           aria-invalid={!!validationError}
-          className={`flex-1 rounded-xl border px-4 py-2.5 text-sm shadow-sm outline-none transition focus:ring-2 ${
-            validationError
-              ? 'border-red-400 focus:ring-red-300'
-              : 'border-gray-300 focus:ring-blue-300'
-          }`}
+          className="flex-1 bg-transparent px-4 py-3 text-sm text-white placeholder-white/30 outline-none"
         />
         <button
           type="button"
           onClick={submit}
-          className="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 active:scale-95"
+          className="flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/25 transition hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400 active:scale-95"
           aria-label="Search"
         >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+            <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clipRule="evenodd" />
+          </svg>
           Search
         </button>
       </div>
       {validationError && (
-        <p id="city-search-error" role="alert" className="mt-1.5 text-xs text-red-600">
+        <p id="city-search-error" role="alert" className="mt-2 pl-1 text-xs text-rose-400">
           {validationError}
         </p>
       )}

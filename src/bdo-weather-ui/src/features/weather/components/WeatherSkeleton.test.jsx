@@ -16,7 +16,8 @@ describe('WeatherSkeleton', () => {
 
   it('renders skeleton placeholder rows', () => {
     const { container } = render(<WeatherSkeleton />)
-    const placeholders = container.querySelectorAll('.bg-gray-200')
+    const wrapper = container.querySelector('[aria-busy="true"]')
+    const placeholders = wrapper.querySelectorAll('div')
     expect(placeholders.length).toBeGreaterThan(0)
   })
 })
