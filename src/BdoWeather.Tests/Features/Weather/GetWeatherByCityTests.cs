@@ -1,3 +1,4 @@
+using Xunit;
 using BdoWeather.Common;
 using BdoWeather.Features.Weather;
 using BdoWeather.Infrastructure;
@@ -6,7 +7,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using Shouldly;
-using TUnit.Core;
+
 
 namespace BdoWeather.Tests.Features.Weather;
 
@@ -20,7 +21,7 @@ public sealed class GetWeatherByCityTests
     private GetWeatherByCity CreateHandler() =>
         new(_apiClient, _cache, _options, NullLogger<GetWeatherByCity>.Instance);
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_ValidCity_ReturnsWeatherResponse()
     {
         var expected = BuildWeatherResponse("London");
@@ -33,7 +34,7 @@ public sealed class GetWeatherByCityTests
         result.Value!.City.ShouldBe("London");
     }
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_CityNotFound_ReturnsFailure()
     {
         _apiClient.GetWeatherAsync("Nowhere", Arg.Any<CancellationToken>())
@@ -45,7 +46,7 @@ public sealed class GetWeatherByCityTests
         result.Error!.Code.ShouldBe("CITY_NOT_FOUND");
     }
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_SecondCall_ReturnsCachedResult()
     {
         var expected = BuildWeatherResponse("Paris");
@@ -59,7 +60,7 @@ public sealed class GetWeatherByCityTests
         await _apiClient.Received(1).GetWeatherAsync("Paris", Arg.Any<CancellationToken>());
     }
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_UpstreamError_DoesNotCache()
     {
         _apiClient.GetWeatherAsync("Tokyo", Arg.Any<CancellationToken>())

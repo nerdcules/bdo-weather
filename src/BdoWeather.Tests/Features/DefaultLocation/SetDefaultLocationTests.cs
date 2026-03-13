@@ -1,3 +1,4 @@
+using Xunit;
 using BdoWeather.Common;
 using BdoWeather.Features.DefaultLocation;
 using BdoWeather.Features.Weather;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using NSubstitute;
 using Shouldly;
-using TUnit.Core;
+
 
 namespace BdoWeather.Tests.Features.DefaultLocation;
 
@@ -26,7 +27,7 @@ public sealed class SetDefaultLocationTests
     private readonly IMemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
     private readonly IValidator<SetDefaultLocationRequest> _validator = new SetDefaultLocationValidator();
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_ValidCity_PersistsAndReturnsResponse()
     {
         await using var db = CreateInMemoryDb();
@@ -42,7 +43,7 @@ public sealed class SetDefaultLocationTests
         db.DefaultLocations.Count().ShouldBe(1);
     }
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_EmptyCity_ReturnsValidationFailure()
     {
         await using var db = CreateInMemoryDb();
@@ -53,7 +54,7 @@ public sealed class SetDefaultLocationTests
         result.Error!.Code.ShouldBe("VALIDATION");
     }
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_CityNotFoundByApi_ReturnsFailure()
     {
         await using var db = CreateInMemoryDb();
@@ -68,7 +69,7 @@ public sealed class SetDefaultLocationTests
         db.DefaultLocations.Count().ShouldBe(0);
     }
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_SecondSet_ReplacesExistingDefault()
     {
         await using var db = CreateInMemoryDb();

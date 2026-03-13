@@ -1,12 +1,13 @@
+using Xunit;
 using BdoWeather.Features.Mock;
 using Shouldly;
-using TUnit.Core;
+
 
 namespace BdoWeather.Tests.Features.Mock;
 
 public sealed class GetMockWeatherTests
 {
-    [Test]
+    [Fact]
     public async Task HandleAsync_WithCity_ReturnsSuccessWithProvidedCity()
     {
         var handler = new GetMockWeather();
@@ -17,7 +18,7 @@ public sealed class GetMockWeatherTests
         result.Value.Country.ShouldBe("MC");
     }
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_EmptyCity_ReturnsMockCity()
     {
         var handler = new GetMockWeather();
@@ -27,7 +28,7 @@ public sealed class GetMockWeatherTests
         result.Value!.City.ShouldBe("MockCity");
     }
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_WhitespaceCity_ReturnsMockCity()
     {
         var handler = new GetMockWeather();
@@ -37,7 +38,7 @@ public sealed class GetMockWeatherTests
         result.Value!.City.ShouldBe("MockCity");
     }
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_ReturnsExpectedWeatherFields()
     {
         var handler = new GetMockWeather();

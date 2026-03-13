@@ -1,3 +1,4 @@
+using Xunit;
 using System.Net;
 using System.Net.Http.Json;
 using BdoWeather.Features.DefaultLocation;
@@ -13,7 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NSubstitute;
 using Shouldly;
-using TUnit.Core;
+
 
 namespace BdoWeather.Tests.Integration;
 
@@ -64,7 +65,7 @@ public sealed class ApiEndpointTests
 
     // ── /api/weather ──────────────────────────────────────────────────────────
 
-    [Test]
+    [Fact]
     public async Task GetWeather_MissingCity_Returns400()
     {
         await using var factory = CreateFactory();
@@ -75,7 +76,7 @@ public sealed class ApiEndpointTests
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
-    [Test]
+    [Fact]
     public async Task GetWeather_ValidCity_MockEnabled_Returns200WithData()
     {
         await using var factory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
@@ -93,7 +94,7 @@ public sealed class ApiEndpointTests
         body.ShouldContain("Dublin");
     }
 
-    [Test]
+    [Fact]
     public async Task GetWeather_ValidCity_RealApiClient_CityNotFound_Returns404()
     {
         var apiClient = Substitute.For<IWeatherApiClient>();
@@ -120,7 +121,7 @@ public sealed class ApiEndpointTests
 
     // ── /api/weather/mock ─────────────────────────────────────────────────────
 
-    [Test]
+    [Fact]
     public async Task GetWeatherMock_Returns200WithMockData()
     {
         await using var factory = CreateFactory();
@@ -133,7 +134,7 @@ public sealed class ApiEndpointTests
         body.ShouldContain("TestCity");
     }
 
-    [Test]
+    [Fact]
     public async Task GetWeatherMock_NoCity_Uses_London_Default()
     {
         await using var factory = CreateFactory();
@@ -146,7 +147,7 @@ public sealed class ApiEndpointTests
 
     // ── /api/default-location ─────────────────────────────────────────────────
 
-    [Test]
+    [Fact]
     public async Task GetDefaultLocation_NothingSet_Returns200WithNullData()
     {
         await using var factory = CreateFactory();
@@ -159,7 +160,7 @@ public sealed class ApiEndpointTests
         body.ShouldContain("null");
     }
 
-    [Test]
+    [Fact]
     public async Task SetDefaultLocation_InvalidCity_Returns400()
     {
         await using var factory = CreateFactory();
@@ -170,7 +171,7 @@ public sealed class ApiEndpointTests
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
-    [Test]
+    [Fact]
     public async Task SetDefaultLocation_ValidCity_MockEnabled_Returns200()
     {
         var apiClient = Substitute.For<IWeatherApiClient>();
@@ -192,7 +193,7 @@ public sealed class ApiEndpointTests
         body.ShouldContain("London");
     }
 
-    [Test]
+    [Fact]
     public async Task GetDefaultLocation_AfterSet_ReturnsLocation()
     {
         var apiClient = Substitute.For<IWeatherApiClient>();

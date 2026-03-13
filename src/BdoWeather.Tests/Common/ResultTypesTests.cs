@@ -1,12 +1,13 @@
+using Xunit;
 using BdoWeather.Common;
 using Shouldly;
-using TUnit.Core;
+
 
 namespace BdoWeather.Tests.Common;
 
 public sealed class ResultTypesTests
 {
-    [Test]
+    [Fact]
     public void Success_SetsValueAndIsSuccess()
     {
         var result = Result<string>.Success("hello");
@@ -17,7 +18,7 @@ public sealed class ResultTypesTests
         result.Error.ShouldBeNull();
     }
 
-    [Test]
+    [Fact]
     public void Failure_StringOverload_SetsErrorAndIsFailure()
     {
         var result = Result<int>.Failure("ERR", "Something went wrong");
@@ -29,7 +30,7 @@ public sealed class ResultTypesTests
         result.Error.Message.ShouldBe("Something went wrong");
     }
 
-    [Test]
+    [Fact]
     public void Failure_ErrorOverload_SetsError()
     {
         var error = new Error("MY_CODE", "my message");
@@ -40,7 +41,7 @@ public sealed class ResultTypesTests
         result.Error.Message.ShouldBe("my message");
     }
 
-    [Test]
+    [Fact]
     public void Match_OnSuccess_InvokesOnSuccessDelegate()
     {
         var result = Result<int>.Success(42);
@@ -52,7 +53,7 @@ public sealed class ResultTypesTests
         output.ShouldBe("got 42");
     }
 
-    [Test]
+    [Fact]
     public void Match_OnFailure_InvokesOnFailureDelegate()
     {
         var result = Result<int>.Failure("FAIL", "bad");
@@ -64,7 +65,7 @@ public sealed class ResultTypesTests
         output.ShouldBe("err FAIL");
     }
 
-    [Test]
+    [Fact]
     public void Error_Record_EqualityByValue()
     {
         var e1 = new Error("A", "msg");

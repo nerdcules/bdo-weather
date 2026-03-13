@@ -8,7 +8,7 @@ on:
 
 jobs:
   backend:
-    name: Backend — TUnit tests
+    name: Backend — xUnit tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -29,13 +29,13 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
       - name: Test with coverage
-        run: dotnet run --no-build --configuration Release -- --coverage --coverage-output-format cobertura
+        run: dotnet test --no-build --configuration Release --collect:"XPlat Code Coverage" --results-directory TestResults
 
       - name: Upload BE coverage
         uses: actions/upload-artifact@v4
         with:
           name: be-coverage
-          path: src/BdoWeather.Tests/bin/Release/net10.0/TestResults/*.cobertura.xml
+          path: src/BdoWeather.Tests/TestResults/*/coverage.cobertura.xml
 
   frontend:
     name: Frontend — vitest

@@ -1,3 +1,4 @@
+using Xunit;
 using BdoWeather.Common;
 using BdoWeather.Features.DefaultLocation;
 using BdoWeather.Infrastructure;
@@ -5,7 +6,7 @@ using BdoWeather.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Shouldly;
-using TUnit.Core;
+
 
 namespace BdoWeather.Tests.Features.DefaultLocation;
 
@@ -19,7 +20,7 @@ public sealed class GetDefaultLocationTests
         return new AppDbContext(options);
     }
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_NothingInDb_ReturnsSuccessWithNull()
     {
         await using var db = CreateInMemoryDb();
@@ -32,7 +33,7 @@ public sealed class GetDefaultLocationTests
         result.Value.ShouldBeNull();
     }
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_EntityInDb_ReturnsSuccessWithResponse()
     {
         await using var db = CreateInMemoryDb();
@@ -54,7 +55,7 @@ public sealed class GetDefaultLocationTests
         result.Value.Country.ShouldBe("IE");
     }
 
-    [Test]
+    [Fact]
     public async Task HandleAsync_SecondCall_ReturnsCachedValue()
     {
         await using var db = CreateInMemoryDb();

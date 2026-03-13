@@ -1,14 +1,15 @@
+using Xunit;
 using BdoWeather.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging.Abstractions;
 using Shouldly;
-using TUnit.Core;
+
 
 namespace BdoWeather.Tests.Common;
 
 public sealed class GlobalExceptionHandlerTests
 {
-    [Test]
+    [Fact]
     public async Task TryHandleAsync_SetsStatus500AndReturnsTrue()
     {
         var handler = new GlobalExceptionHandler(NullLogger<GlobalExceptionHandler>.Instance);
@@ -24,7 +25,7 @@ public sealed class GlobalExceptionHandlerTests
         ctx.Response.StatusCode.ShouldBe(500);
     }
 
-    [Test]
+    [Fact]
     public async Task TryHandleAsync_WritesJsonBody()
     {
         var handler = new GlobalExceptionHandler(NullLogger<GlobalExceptionHandler>.Instance);

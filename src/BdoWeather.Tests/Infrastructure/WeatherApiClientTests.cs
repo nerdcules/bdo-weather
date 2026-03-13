@@ -1,3 +1,4 @@
+using Xunit;
 using System.Net;
 using System.Net.Http.Json;
 using BdoWeather.Features.Weather;
@@ -5,7 +6,7 @@ using BdoWeather.Infrastructure;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Shouldly;
-using TUnit.Core;
+
 
 namespace BdoWeather.Tests.Infrastructure;
 
@@ -63,7 +64,7 @@ public sealed class WeatherApiClientTests
             weather = new[] { new { description = "clear sky", icon = "01d" } }
         });
 
-    [Test]
+    [Fact]
     public async Task GetWeatherAsync_200Response_ReturnsSuccess()
     {
         var response = new HttpResponseMessage(HttpStatusCode.OK)
@@ -81,7 +82,7 @@ public sealed class WeatherApiClientTests
         result.Value.Humidity.ShouldBe(70);
     }
 
-    [Test]
+    [Fact]
     public async Task GetWeatherAsync_404Response_ReturnsCityNotFound()
     {
         var response = new HttpResponseMessage(HttpStatusCode.NotFound);
@@ -93,7 +94,7 @@ public sealed class WeatherApiClientTests
         result.Error!.Code.ShouldBe("CITY_NOT_FOUND");
     }
 
-    [Test]
+    [Fact]
     public async Task GetWeatherAsync_429Response_ReturnsRateLimited()
     {
         var response = new HttpResponseMessage(HttpStatusCode.TooManyRequests);
@@ -105,7 +106,7 @@ public sealed class WeatherApiClientTests
         result.Error!.Code.ShouldBe("RATE_LIMITED");
     }
 
-    [Test]
+    [Fact]
     public async Task GetWeatherAsync_500Response_ReturnsUpstreamError()
     {
         var response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
@@ -117,7 +118,7 @@ public sealed class WeatherApiClientTests
         result.Error!.Code.ShouldBe("UPSTREAM_ERROR");
     }
 
-    [Test]
+    [Fact]
     public async Task GetWeatherAsync_NullBody_ReturnsUpstreamError()
     {
         var response = new HttpResponseMessage(HttpStatusCode.OK)
@@ -132,7 +133,7 @@ public sealed class WeatherApiClientTests
         result.Error!.Code.ShouldBe("UPSTREAM_ERROR");
     }
 
-    [Test]
+    [Fact]
     public async Task GetWeatherAsync_HttpRequestException_ReturnsUpstreamError()
     {
         var client = CreateClient(new ThrowingHttpMessageHandler(new HttpRequestException("Network down")));
@@ -143,7 +144,7 @@ public sealed class WeatherApiClientTests
         result.Error!.Code.ShouldBe("UPSTREAM_ERROR");
     }
 
-    [Test]
+    [Fact]
     public async Task GetWeatherAsync_TaskCanceledException_ReturnsUpstreamError()
     {
         var client = CreateClient(new ThrowingHttpMessageHandler(new TaskCanceledException("Timeout")));
@@ -154,7 +155,7 @@ public sealed class WeatherApiClientTests
         result.Error!.Code.ShouldBe("UPSTREAM_ERROR");
     }
 
-    [Test]
+    [Fact]
     public async Task GetWeatherAsync_MapsIconUrl()
     {
         var response = new HttpResponseMessage(HttpStatusCode.OK)
@@ -168,7 +169,7 @@ public sealed class WeatherApiClientTests
         result.Value!.IconUrl.ShouldContain("01d@2x.png");
     }
 
-    [Test]
+    [Fact]
     public async Task GetWeatherAsync_MapsSunriseAndSunset()
     {
         var response = new HttpResponseMessage(HttpStatusCode.OK)
