@@ -14,8 +14,11 @@ using Polly;
 var builder = WebApplication.CreateBuilder(args);
 
 // ── Config ────────────────────────────────────────────────────────────────────
-builder.Services.Configure<WeatherApiOptions>(
-    builder.Configuration.GetSection(WeatherApiOptions.SectionName));
+builder.Services
+    .AddOptions<WeatherApiOptions>()
+    .BindConfiguration(WeatherApiOptions.SectionName)
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 
 // ── Persistence ───────────────────────────────────────────────────────────────
 var connectionString = builder.Configuration.GetConnectionString("Default") ?? "Data Source=bdo-weather.db";

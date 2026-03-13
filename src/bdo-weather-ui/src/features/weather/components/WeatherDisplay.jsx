@@ -26,9 +26,9 @@ export const WeatherDisplay = () => {
   if (isLoading) return <WeatherSkeleton />
   if (isError) return <WeatherError error={error} onRetry={refetch} />
 
-  const { city: name, country, temperature, weather, humidity, wind, sunrise, sunset, timezone } = data
+  const { city: name, country, temperature, description, icon, iconUrl, humidity, windSpeed, windDirection, sunrise, sunset } = data
 
-  const iconUrl = `https://openweathermap.org/img/wn/${weather.icon}@2x.png`
+  const weatherIconUrl = iconUrl ?? `https://openweathermap.org/img/wn/${icon}@2x.png`
 
   return (
     <article aria-label={`Weather for ${name}, ${country}`} className="glass-card rounded-3xl overflow-hidden">
@@ -39,9 +39,9 @@ export const WeatherDisplay = () => {
           <div>
             <h2 className="text-3xl font-bold text-white">{name}</h2>
             <p className="mt-0.5 text-sm font-medium text-sky-300">{country}</p>
-            <p className="mt-1 text-sm capitalize text-white/50">{weather.description}</p>
+            <p className="mt-1 text-sm capitalize text-white/50">{description}</p>
           </div>
-          <WeatherIcon src={iconUrl} alt={weather.description} className="h-20 w-20 drop-shadow-2xl" />
+          <WeatherIcon src={weatherIconUrl} alt={description} className="h-20 w-20 drop-shadow-2xl" />
         </div>
 
         {/* Temperature + unit toggle */}
@@ -70,9 +70,9 @@ export const WeatherDisplay = () => {
         {/* Detail grid */}
         <dl className="grid grid-cols-2 gap-3 pt-1 sm:grid-cols-4">
           <DetailItem label="Humidity" value={`${humidity}%`} icon="💧" />
-          <DetailItem label="Wind" value={`${formatWindSpeed(wind.speed)} ${formatWindDirection(wind.deg)}`} icon="🌬️" />
-          <DetailItem label="Sunrise" value={formatTime(sunrise, timezone)} icon="🌅" />
-          <DetailItem label="Sunset" value={formatTime(sunset, timezone)} icon="🌇" />
+          <DetailItem label="Wind" value={`${formatWindSpeed(windSpeed)} ${formatWindDirection(windDirection)}`} icon="🌬️" />
+          <DetailItem label="Sunrise" value={formatTime(sunrise)} icon="🌅" />
+          <DetailItem label="Sunset" value={formatTime(sunset)} icon="🌇" />
         </dl>
 
       </div>
