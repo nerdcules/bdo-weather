@@ -2,6 +2,7 @@ using BdoWeather.Common;
 
 namespace BdoWeather.Features.Mock;
 
+/// <summary>Returns a static mock weather response. Used in development (UseMock: true) and integration tests to avoid real API calls.</summary>
 public sealed class GetMockWeather
 {
     public Task<Result<Features.Weather.WeatherResponse>> HandleAsync(string city, CancellationToken ct = default)

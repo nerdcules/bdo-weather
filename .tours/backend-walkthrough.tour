@@ -5,7 +5,7 @@
     {
       "file": "src/BdoWeather.Api/Program.cs",
       "line": 17,
-      "description": "### Config binding\n`WeatherApiOptions` is bound from `appsettings.json`. In Development, `appsettings.Development.json` overrides `UseMock: true` so OWM is never called without a real API key."
+      "description": "### Config binding\n`WeatherApiOptions` is bound from `appsettings.json`. The `ApiKey` must be supplied via user secrets (local dev) or an environment variable (CI/production) — it is validated on start-up via `[Required]` + `ValidateOnStart()`."
     },
     {
       "file": "src/BdoWeather.Api/Infrastructure/WeatherApiOptions.cs",
@@ -55,12 +55,12 @@
     {
       "file": "src/BdoWeather.Tests/Features/Weather/GetWeatherByCityTests.cs",
       "line": 1,
-      "description": "### Weather tests (TUnit)\nFour tests: happy path, city not found, cache hit on second call, upstream error not cached. Uses NSubstitute for `IWeatherApiClient` and EF InMemory for the DB."
+      "description": "### Weather tests (xUnit)\nFour tests: happy path, city not found, cache hit on second call, upstream error not cached. Uses NSubstitute for `IWeatherApiClient` and EF InMemory for the DB."
     },
     {
       "file": "src/BdoWeather.Tests/Features/DefaultLocation/SetDefaultLocationTests.cs",
       "line": 1,
-      "description": "### Default location tests\nFour tests: valid set, empty city validation, city not found by OWM, second set replaces first (upsert semantics). TUnit + Shouldly + NSubstitute."
+      "description": "### Default location tests\nFour tests: valid set, empty city validation, city not found by OWM, second set replaces first (upsert semantics). xUnit + Shouldly + NSubstitute."
     }
   ]
 }

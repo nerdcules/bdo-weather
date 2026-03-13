@@ -6,6 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace BdoWeather.Features.DefaultLocation;
 
+/// <summary>Retrieves the saved default location from the database, backed by a 24-hour in-memory cache. Returns null when no default has been set.</summary>
 public sealed class GetDefaultLocation(AppDbContext db, IMemoryCache cache)
 {
     public async Task<Result<DefaultLocationResponse?>> HandleAsync(CancellationToken ct = default)

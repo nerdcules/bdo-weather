@@ -1,0 +1,51 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "5 — Bad Path: Invalid Input & City Not Found",
+  "steps": [
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/components/WeatherSearch.jsx",
+      "line": 26,
+      "description": "### Bad path A — client-side validation fails\nIf the user submits an empty string or a city name with special characters (e.g. `Lond@n`), `validate()` returns a non-empty error string. `setActiveCity` is **not** called, no network request is made, and `validationError` is rendered below the input with `role='alert'`."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/hooks/useWeatherByCity.js",
+      "line": 6,
+      "description": "### Bad path B — valid input, server rejects city\nIf the user submits a real-looking but non-existent city (e.g. `Zzzzland`), `setActiveCity` is called, React Query fires the request, and `getWeatherByCity` makes the network call."
+    },
+    {
+      "file": "src/BdoWeather.Api/Program.cs",
+      "line": 71,
+      "description": "### Step 1 (server) — Route receives city\nThe route handler receives `city=Zzzzland` and delegates to `GetWeatherByCity.HandleAsync()`."
+    },
+    {
+      "file": "src/BdoWeather.Api/Infrastructure/WeatherApiClient.cs",
+      "line": 35,
+      "description": "### Step 2 (server) — OWM returns 404\nOpenWeatherMap responds with HTTP 404 for an unknown city. `WeatherApiClient` maps this to `Result.Failure(\"CITY_NOT_FOUND\", \"No city found matching 'Zzzzland'.\")` — no exception is thrown."
+    },
+    {
+      "file": "src/BdoWeather.Api/Common/ResultExtensions.cs",
+      "line": 8,
+      "description": "### Step 3 (server) — Result maps to HTTP 404\n`ToHttpResult()` pattern-matches on `Error.Code == \"CITY_NOT_FOUND\"` and calls `Results.NotFound(ApiEnvelope.Error(error))`, returning:\n```json\n{ \"data\": null, \"errors\": [{ \"code\": \"CITY_NOT_FOUND\", \"message\": \"No city found matching 'Zzzzland'.\" }] }\n```"
+    },
+    {
+      "file": "src/bdo-weather-ui/src/shared/api/apiClient.js",
+      "line": 14,
+      "description": "### Step 4 (client) — Axios interceptor throws CityNotFoundError\nThe error interceptor sees `status === 404` and throws `new CityNotFoundError(firstError.message)`. React Query catches this and sets `isError = true`, `error = <CityNotFoundError>`."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/components/WeatherDisplay.jsx",
+      "line": 31,
+      "description": "### Step 5 (client) — WeatherDisplay renders WeatherError\nWith `isError = true`, `WeatherDisplay` renders `<WeatherError error={error} onRetry={refetch} />`."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/components/WeatherError.jsx",
+      "line": 7,
+      "description": "### Step 6 (client) — WeatherError differentiates the error type\n`error instanceof CityNotFoundError` is true, so the card shows the 🔍 icon and displays \"City not found\" with the server's message. The retry button is hidden for city-not-found errors (search again is more useful). For network errors the retry button is shown."
+    },
+    {
+      "file": "src/BdoWeather.Api/Common/GlobalExceptionHandler.cs",
+      "line": 10,
+      "description": "### Fallback — truly unexpected errors\nIf something throws an unhandled exception anywhere in the pipeline (e.g. a database error), `GlobalExceptionHandler.TryHandleAsync()` catches it, logs the full stack trace, and responds with HTTP 500:\n```json\n{ \"data\": null, \"errors\": [{ \"code\": \"INTERNAL_ERROR\", \"message\": \"An unexpected error occurred.\" }] }\n```\nThe client's `UnexpectedApiError` path is triggered and `WeatherError` shows the ⚠️ icon."
+    }
+  ]
+}

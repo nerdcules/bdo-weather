@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BdoWeather.Persistence;
 
+/// <summary>Database entity for the user's chosen default location. The table always contains at most one row.</summary>
 public sealed class DefaultLocationEntity
 {
     public int Id { get; init; }

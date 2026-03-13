@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Http;
 
 namespace BdoWeather.Common;
 
+/// <summary>Extension methods that map <see cref="Result{T}"/> values to ASP.NET Core <see cref="IResult"/> HTTP responses.</summary>
 public static class ResultExtensions
 {
+    /// <summary>Converts a <see cref="Result{T}"/> to the correct HTTP status code: 200, 400, 404, 429, 502, or 500.</summary>
     public static IResult ToHttpResult<T>(this Result<T> result, Func<T, IResult> onSuccess) =>
         result.IsSuccess
             ? onSuccess(result.Value!)
@@ -17,6 +19,7 @@ public static class ResultExtensions
             };
 }
 
+/// <summary>Wraps all API responses in a consistent <c>{ data, errors }</c> envelope understood by the frontend axios interceptor.</summary>
 public static class ApiEnvelope
 {
     public static object Success<T>(T data) => new { data, errors = Array.Empty<object>() };

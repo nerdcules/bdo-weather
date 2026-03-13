@@ -1,0 +1,61 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "4 — Happy Path: Search → API → Display",
+  "steps": [
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/components/WeatherSearch.jsx",
+      "line": 44,
+      "description": "### Step 1 — User submits a city\nThe user types a city name and presses Enter (or clicks Search). `submit()` runs `validate()` — if the input is clean, it calls `setActiveCity(trimmed)` on the Zustand weather store, which triggers a re-render in `WeatherDisplay`."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/stores/index.js",
+      "line": 3,
+      "description": "### Step 2 — Zustand: activeCity written\n`useWeatherStore` is a tiny Zustand store that holds the active city string. Setting it here causes every component that reads `activeCity` to re-render — notably `WeatherDisplay`."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/components/WeatherDisplay.jsx",
+      "line": 12,
+      "description": "### Step 3 — WeatherDisplay reads activeCity\n`WeatherDisplay` subscribes to `activeCity` via `useWeatherStore`. When it changes it calls `useWeatherByCity(city)`, which hands off to React Query."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/hooks/useWeatherByCity.js",
+      "line": 6,
+      "description": "### Step 4 — React Query hook\n`useQuery` fires `getWeatherByCity(city)` the first time a city is requested. `staleTime: 5 min` means a cached response is served for subsequent requests within 5 minutes. `retry: false` ensures city-not-found errors surface immediately."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/api/getWeatherByCity.js",
+      "line": 28,
+      "description": "### Step 5 — API call\n`apiClient.get('/api/weather', { params: { city } })` sends a `GET /api/weather?city=London` to the Vite dev proxy, which forwards it to `http://localhost:5154`. The Zod schema validates the response shape before it is returned — malformed responses throw here rather than crashing the UI later."
+    },
+    {
+      "file": "src/bdo-weather-ui/src/shared/api/apiClient.js",
+      "line": 9,
+      "description": "### Step 6 — Axios response interceptor\nThe success interceptor unwraps the `{ data, errors }` envelope and returns only `response.data.data`. Feature code never sees the envelope — it just gets the weather payload directly."
+    },
+    {
+      "file": "src/BdoWeather.Api/Program.cs",
+      "line": 71,
+      "description": "### Step 7 — API endpoint\n`GET /api/weather?city=London` hits this minimal-API route. If `UseMock` is false, it calls `GetWeatherByCity.HandleAsync(city)`. If `UseMock` is true, it calls `GetMockWeather.HandleAsync(city)` instead."
+    },
+    {
+      "file": "src/BdoWeather.Api/Features/Weather/GetWeatherByCity.cs",
+      "line": 19,
+      "description": "### Step 8 — Cache check\n`GetWeatherByCity` checks `IMemoryCache` first. A cache key like `weather::london` is used so case variations of the same city collapse to one entry. On a miss, the handler calls `IWeatherApiClient.GetWeatherAsync(city)`."
+    },
+    {
+      "file": "src/BdoWeather.Api/Infrastructure/WeatherApiClient.cs",
+      "line": 17,
+      "description": "### Step 9 — OWM HTTP call\n`WeatherApiClient` calls `GET weather?q=London&appid=...&units=metric` on OpenWeatherMap. On a 200 response it maps the raw OWM JSON struct to the domain `WeatherResponse` record via `MapOwmResponse()` and returns `Result.Success(response)`."
+    },
+    {
+      "file": "src/BdoWeather.Api/Common/ResultExtensions.cs",
+      "line": 8,
+      "description": "### Step 10 — Success → HTTP 200\nBack in the route handler, `result.ToHttpResult(...)` sees `IsSuccess = true` and calls `Results.Ok(ApiEnvelope.Success(data))`, sending:\n```json\n{ \"data\": { \"city\": \"London\", ... }, \"errors\": [] }\n```"
+    },
+    {
+      "file": "src/bdo-weather-ui/src/features/weather/components/WeatherDisplay.jsx",
+      "line": 33,
+      "description": "### Step 11 — WeatherDisplay renders the card\nWith `isLoading=false` and `isError=false`, the component destructures the weather data and renders the full card: temperature, feels-like, humidity, wind, sunrise/sunset. The unit toggle reads `useSettingsStore` to convert °C ↔ °F."
+    }
+  ]
+}

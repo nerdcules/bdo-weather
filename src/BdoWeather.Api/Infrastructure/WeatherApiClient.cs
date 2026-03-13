@@ -7,6 +7,11 @@ using Microsoft.Extensions.Options;
 
 namespace BdoWeather.Infrastructure;
 
+/// <summary>
+/// Calls OpenWeatherMap's <c>/data/2.5/weather</c> endpoint, maps the response to the domain
+/// <see cref="WeatherResponse"/> record, and translates HTTP error codes to typed
+/// <see cref="Result{T}"/> failures so callers never need to inspect HTTP status codes.
+/// </summary>
 public sealed class WeatherApiClient(
     HttpClient httpClient,
     IOptions<WeatherApiOptions> options,

@@ -7,6 +7,10 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace BdoWeather.Features.DefaultLocation;
 
+/// <summary>
+/// Validates the city name, verifies it exists via the weather API, replaces any existing
+/// default location (always at most one row), and invalidates the cache on success.
+/// </summary>
 public sealed class SetDefaultLocation(
     AppDbContext db,
     IMemoryCache cache,

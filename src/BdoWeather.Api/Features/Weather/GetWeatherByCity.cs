@@ -6,6 +6,11 @@ using Microsoft.Extensions.Options;
 
 namespace BdoWeather.Features.Weather;
 
+/// <summary>
+/// Cache-first weather fetch handler. Returns a cached response on a hit, or delegates to
+/// <see cref="IWeatherApiClient"/> on a miss. Only successful responses are cached;
+/// failures are never stored so transient errors don't poison the cache.
+/// </summary>
 public sealed class GetWeatherByCity(
     IWeatherApiClient apiClient,
     IMemoryCache cache,

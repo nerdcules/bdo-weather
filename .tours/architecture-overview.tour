@@ -33,7 +33,7 @@
     {
       "file": "src/bdo-weather-ui/vite.config.js",
       "line": 1,
-      "description": "### Vite config\nThe `/api` proxy forwards all API calls to `http://localhost:5000` during development so CORS is never an issue locally. Vitest is configured here too — same config file, no separate jest.config."
+      "description": "### Vite config\nThe `/api` proxy forwards all API calls to `http://localhost:5154` during development so CORS is never an issue locally. Vitest is configured here too — same config file, no separate jest.config."
     }
   ]
 }

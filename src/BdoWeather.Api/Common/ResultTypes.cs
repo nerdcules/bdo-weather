@@ -1,7 +1,12 @@
 namespace BdoWeather.Common;
 
+/// <summary>An error code and human-readable message returned when an operation fails.</summary>
 public record Error(string Code, string Message);
 
+/// <summary>
+/// Discriminated union of success (with <typeparamref name="T"/>) or failure (with an <see cref="Error"/>).
+/// Feature handlers return this instead of throwing so callers can handle errors without try/catch.
+/// </summary>
 public sealed class Result<T>
 {
     private Result(T value)

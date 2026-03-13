@@ -4,6 +4,10 @@ using Microsoft.Extensions.Logging;
 
 namespace BdoWeather.Common;
 
+/// <summary>
+/// Last-resort exception handler registered via <c>app.UseExceptionHandler()</c>.
+/// Logs the full stack trace and returns a 500 JSON envelope — never exposes internal details to the client.
+/// </summary>
 public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(

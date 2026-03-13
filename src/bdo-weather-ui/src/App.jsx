@@ -9,6 +9,11 @@ import { DefaultLocationForm } from './features/defaultLocation/components/Defau
 
 const queryClient = new QueryClient()
 
+/**
+ * Root application shell. Sets up React Query, the global error boundary,
+ * toast notifications, and composes the weather search, display, and
+ * default-location features into a single-page layout.
+ */
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
