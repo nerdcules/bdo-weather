@@ -4,6 +4,13 @@ obj/
 *.user
 *.suo
 .vs/
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+*.a
+*.lib
 bdo-weather.db
 bdo-weather.db-shm
 bdo-weather.db-wal
