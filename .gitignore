@@ -1,26 +1,114 @@
-# .NET
+# ==============================================================================
+# .NET / C# Build artifacts
+# ==============================================================================
 bin/
 obj/
-*.user
-*.suo
+out/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+bld/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio files
 .vs/
-bdo-weather.db
-bdo-weather.db-shm
-bdo-weather.db-wal
+*.rsuser
+*.suo
+*.user
+*.sln.docstates
+.vscode/settings.json
 
-# Node / Vite
-src/bdo-weather-ui/node_modules/
-src/bdo-weather-ui/dist/
+# ==============================================================================
+# Node.js / Frontend
+# ==============================================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.npm
+.eslintcache
 
-# Environment
-*.env.local
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Build outputs
+dist/
+build/
+.nuxt/
+.next/
+.cache/
+
+# ==============================================================================
+# Databases
+# ==============================================================================
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# ==============================================================================
+# Environment & Configuration
+# ==============================================================================
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+appsettings.Development.json
+
+# ==============================================================================
+# IDE & OS
+# ==============================================================================
+# VS Code
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/chrome-debug-profile/
+.vscode/edge-debug-profile/
+
+# JetBrains
+.idea/
 
 # OS
 .DS_Store
 Thumbs.db
+ehthumbs.db
+Desktop.ini
 
-# Test & coverage artifacts
+# ==============================================================================
+# Testing & Coverage
+# ==============================================================================
 TestResults/
 coverage/
-*.slnx
+*.lcov
+.nyc_output/
+
+# ==============================================================================
+# Temporary & Log files
+# ==============================================================================
+*.log
+*.tmp
+*.temp
+logs/
+
+# ==============================================================================
+# Package files
+# ==============================================================================
+*.nupkg
+*.snupkg
+*.tgz
+*.tar.gz
+
+# User secrets (should be in user profile, but just in case)
+secrets.json
