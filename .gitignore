@@ -21,6 +21,22 @@ bld/
 *.rsuser
 *.suo
 *.user
+*.suo
+.vs/
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+*.a
+*.lib
+bdo-weather.db
+bdo-weather.db-shm
+bdo-weather.db-wal
+
+# Node / Vite
+src/bdo-weather-ui/node_modules/
+src/bdo-weather-ui/dist/
 *.sln.docstates
 .vscode/settings.json
 
